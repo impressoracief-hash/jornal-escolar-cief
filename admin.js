@@ -89,10 +89,12 @@ function configurarEventos() {
 function restaurarLabelImagem(controles, label) {
   if (editandoId && editandoImgURL) {
     controles.style.display = "block";
-    label.innerHTML = `
-      <img src="${editandoImgURL}" alt="Imagem atual"
-           style="height:48px;width:72px;object-fit:cover;border-radius:6px;flex-shrink:0;">
-      <span>Imagem atual mantida — selecione outra para substituir</span>`;
+    const thumbSrc = editandoImgURL.startsWith("data:") ? "" : editandoImgURL;
+    label.innerHTML = thumbSrc
+      ? `<img src="${thumbSrc}" alt="Imagem atual"
+             style="height:48px;width:72px;object-fit:cover;border-radius:6px;flex-shrink:0;">
+         <span>Imagem atual mantida — selecione outra para substituir</span>`
+      : `<span>🖼️ Imagem atual mantida — selecione outra para substituir</span>`;
   } else {
     controles.style.display = "none";
     label.innerHTML = "🖼️ Clique para selecionar uma imagem…";
@@ -232,10 +234,13 @@ function editar(id) {
 
   if (n.img) {
     controles.style.display = "block";
-    label.innerHTML = `
-      <img src="${n.img}" alt="Imagem atual"
-           style="height:48px;width:72px;object-fit:cover;border-radius:6px;flex-shrink:0;">
-      <span>Imagem atual mantida — selecione outra para substituir</span>`;
+    // Usa o src só se for URL (Storage) — base64 gigante pode travar o thumbnail
+    const thumbSrc = n.img.startsWith("data:") ? "" : n.img;
+    label.innerHTML = thumbSrc
+      ? `<img src="${thumbSrc}" alt="Imagem atual"
+             style="height:48px;width:72px;object-fit:cover;border-radius:6px;flex-shrink:0;">
+         <span>Imagem atual mantida — selecione outra para substituir</span>`
+      : `<span>🖼️ Imagem atual mantida — selecione outra para substituir</span>`;
   } else {
     controles.style.display = "none";
     label.innerHTML = "🖼️ Clique para selecionar uma imagem…";
@@ -418,14 +423,35 @@ function montarImagemHTML(n, contexto) {
   const h   = parseInt(cfg.altura)  || 200;
 
   let style = "";
-  if (contexto === "card" && (pos === "topo" || pos === "abaixo")) {
-    style = "width:100%;height:100%;object-fit:cover;position:absolute;inset:0;";
-  } else if (pos === "esquerda") {
-    style = `width:${w}px;height:${h}px;object-fit:cover;float:left;margin:0 16px 10px 0;border-radius:6px;`;
-  } else if (pos === "direita") {
-    style = `width:${w}px;height:${h}px;object-fit:cover;float:right;margin:0 0 10px 16px;border-radius:6px;`;
+
+  if (contexto === "card") {
+    // No card, a imagem sempre fica contida no card-media (150px de altura)
+    // independente da posição — o tamanho configurado só afeta modal/leitor
+    if (pos === "topo" || pos === "abaixo") {
+      style = "width:100%;height:100%;object-fit:cover;position:absolute;inset:0;";
+    } else if (pos === "esquerda") {
+      style = `width:${Math.min(w, 120)}px;height:${Math.min(h, 100)}px;object-fit:cover;float:left;margin:0 10px 6px 0;border-radius:4px;`;
+    } else {
+      style = `width:${Math.min(w, 120)}px;height:${Math.min(h, 100)}px;object-fit:cover;float:right;margin:0 0 6px 10px;border-radius:4px;`;
+    }
+  } else if (contexto === "modal") {
+    // No modal, respeita dimensões mas limita ao espaço disponível
+    if (pos === "topo" || pos === "abaixo") {
+      style = `width:${w}px;max-width:100%;height:auto;max-height:${h}px;object-fit:cover;border-radius:8px;display:block;margin-bottom:12px;`;
+    } else if (pos === "esquerda") {
+      style = `width:${w}px;max-width:45%;height:${h}px;object-fit:cover;float:left;margin:0 16px 10px 0;border-radius:6px;`;
+    } else {
+      style = `width:${w}px;max-width:45%;height:${h}px;object-fit:cover;float:right;margin:0 0 10px 16px;border-radius:6px;`;
+    }
   } else {
-    style = `width:${w}px;max-width:100%;height:${h}px;object-fit:cover;border-radius:8px;display:block;margin-bottom:12px;`;
+    // Leitor / destaque
+    if (pos === "topo" || pos === "abaixo") {
+      style = `width:${w}px;max-width:100%;height:${h}px;object-fit:cover;border-radius:8px;display:block;margin-bottom:12px;`;
+    } else if (pos === "esquerda") {
+      style = `width:${w}px;height:${h}px;object-fit:cover;float:left;margin:0 16px 10px 0;border-radius:6px;`;
+    } else {
+      style = `width:${w}px;height:${h}px;object-fit:cover;float:right;margin:0 0 10px 16px;border-radius:6px;`;
+    }
   }
 
   const tag = `<img src="${n.img}" alt="${escapeHtml(n.titulo)}" style="${style}">`;
