@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Painel Admin — Jornal Escolar</title>
+    <link rel="stylesheet" href="admin.css" />
+  </head>
+
+  <body>
+    <button class="menu-toggle" onclick="toggleMenu()" aria-label="Abrir menu">☰</button>
+
+    <nav class="menu" role="navigation" aria-label="Menu de administração">
+      <div class="menu-brand">
+        <h2>🔧 Admin — Jornal</h2>
+        <small id="usuario-email">Carregando…</small>
+      </div>
+
+      <div class="menu-stats">
+        <div class="stat-box azul">
+          <div class="stat-num" id="stat-total">0</div>
+          <div class="stat-lbl">Total</div>
+        </div>
+        <div class="stat-box verde">
+          <div class="stat-num" id="stat-eventos">0</div>
+          <div class="stat-lbl">Eventos</div>
+        </div>
+        <div class="stat-box laranja">
+          <div class="stat-num" id="stat-esportes">0</div>
+          <div class="stat-lbl">Esportes</div>
+        </div>
+        <div class="stat-box roxo">
+          <div class="stat-num" id="stat-projetos">0</div>
+          <div class="stat-lbl">Projetos</div>
+        </div>
+      </div>
+
+      <div class="menu-nav">
+        <div class="menu-nav-label">Filtrar por categoria</div>
+        <nav>
+          <button onclick="filtrar('todas')" class="active">🗞️ Todas as notícias</button>
+          <button onclick="filtrar('eventos')">🎉 Eventos</button>
+          <button onclick="filtrar('projetos')">🔬 Projetos</button>
+          <button onclick="filtrar('esportes')">⚽ Esportes</button>
+        </nav>
+      </div>
+
+      <div style="padding:0 12px 8px;">
+        <a href="leitor.html" target="_blank" class="btn-visualizar">👁️ Ver Jornal Público</a>
+        <button onclick="sair()" class="btn-sair">🚪 Sair</button>
+      </div>
+    </nav>
+
+    <main class="conteudo">
+      <header class="topo">
+        <div class="topo-texto">
+          <h1>🔧 Painel de Administração</h1>
+          <p>Gerencie as notícias do jornal escolar</p>
+        </div>
+        <div class="topo-badge" id="badge-filtro">📋 Todas as categorias</div>
+      </header>
+
+      <div class="painel-layout">
+        <!-- Formulário -->
+        <section class="form" aria-label="Formulário de notícias">
+          <div class="form-titulo">
+            <div class="form-icon">✏️</div>
+            <h3 id="form-titulo-texto">Nova notícia</h3>
+          </div>
+
+          <label for="titulo">Título</label>
+          <input id="titulo" placeholder="Digite o título da notícia" maxlength="100" required />
+
+          <label for="texto">Conteúdo</label>
+          <textarea id="texto" placeholder="Escreva o conteúdo da notícia" maxlength="500" required></textarea>
+
+          <label for="categoria">Categoria</label>
+          <select id="categoria">
+            <option value="eventos">🎉 Eventos</option>
+            <option value="projetos">🔬 Projetos</option>
+            <option value="esportes">⚽ Esportes</option>
+          </select>
+
+          <label>Imagem (opcional, máx. 5 MB)</label>
+          <div class="input-file-wrapper">
+            <label class="input-file-label" for="imagem">
+              🖼️ Clique para selecionar uma imagem…
+            </label>
+            <input type="file" id="imagem" accept="image/*" />
+          </div>
+
+          <div class="controles-imagem" id="controles-imagem" style="display:none;">
+            <h4>⚙️ Configurações da imagem</h4>
+            <div class="img-grid">
+              <div>
+                <label for="largura">Largura (px)</label>
+                <input type="number" id="largura" value="300" min="50" max="800" />
+              </div>
+              <div>
+                <label for="altura">Altura (px)</label>
+                <input type="number" id="altura" value="200" min="50" max="600" />
+              </div>
+              <div class="campo-full">
+                <label for="posicao">Posição da imagem</label>
+                <select id="posicao">
+                  <option value="topo">⬆️ Acima do texto</option>
+                  <option value="esquerda">⬅️ Esquerda do texto</option>
+                  <option value="direita">➡️ Direita do texto</option>
+                  <option value="abaixo">⬇️ Abaixo do texto</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <!-- Barra de progresso do upload -->
+          <div id="progresso-wrapper" style="display:none; margin-bottom:14px;">
+            <div style="font-size:12px;color:#64748b;margin-bottom:6px;">Enviando imagem…</div>
+            <div style="background:#e2e8f0;border-radius:6px;height:8px;overflow:hidden;">
+              <div id="progresso-barra" style="height:100%;background:#2563eb;width:0%;transition:width .3s;border-radius:6px;"></div>
+            </div>
+          </div>
+
+          <div class="form-btns">
+            <button class="btn" id="btn-publicar" onclick="publicar()">
+              🚀 Publicar notícia
+            </button>
+          </div>
+        </section>
+
+        <!-- Lista -->
+        <section aria-label="Lista de notícias publicadas">
+          <div class="lista-header">
+            <h3>Notícias publicadas</h3>
+            <span class="contagem" id="contagem-noticias">0 notícias</span>
+          </div>
+          <div class="grid" id="lista">
+            <div class="empty-state">
+              <div class="empty-icon">⏳</div>
+              <h3>Carregando…</h3>
+            </div>
+          </div>
+        </section>
+      </div>
+    </main>
+
+    <script type="module" src="admin.js"></script>
+  </body>
+</html>

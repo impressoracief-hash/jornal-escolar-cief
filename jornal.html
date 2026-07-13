@@ -1,0 +1,221 @@
+<!doctype html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Jornal Escolar</title>
+
+    <style>
+      body {
+        margin: 0;
+        font-family: Arial, Helvetica, sans-serif;
+        display: flex;
+        background: #f4f6f9;
+      }
+
+      /* MENU */
+      .menu {
+        width: 240px;
+        background: #1e293b;
+        color: white;
+        height: 100vh;
+        padding: 20px;
+        box-shadow: 2px 0 10px rgba(0, 0, 0, 0.2);
+      }
+      .menu h2 {
+        margin-top: 0;
+      }
+      .menu button {
+        width: 100%;
+        padding: 12px;
+        margin: 6px 0;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        background: #334155;
+        color: white;
+        font-weight: bold;
+      }
+      .menu button:hover {
+        background: #475569;
+      }
+
+      /* CONTEÚDO */
+      .conteudo {
+        flex: 1;
+        padding: 25px;
+      }
+
+      .topo {
+        background: white;
+        padding: 18px;
+        border-radius: 12px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        margin-bottom: 20px;
+      }
+
+      /* FORM */
+      .form {
+        background: white;
+        padding: 20px;
+        border-radius: 12px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        margin-bottom: 20px;
+      }
+      input,
+      textarea,
+      select {
+        width: 100%;
+        padding: 10px;
+        margin: 6px 0 12px;
+        border-radius: 8px;
+        border: 1px solid #ccc;
+      }
+      textarea {
+        height: 90px;
+      }
+
+      .btn {
+        background: #2563eb;
+        color: white;
+        padding: 12px;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        font-weight: bold;
+      }
+
+      /* NOTÍCIAS */
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+        gap: 18px;
+      }
+
+      .card {
+        background: white;
+        border-radius: 12px;
+        overflow: hidden;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      }
+      .card img {
+        width: 100%;
+        height: 160px;
+        object-fit: cover;
+      }
+      .card .txt {
+        padding: 12px;
+      }
+      .categoria {
+        font-size: 12px;
+        background: #e2e8f0;
+        padding: 3px 8px;
+        border-radius: 6px;
+        display: inline-block;
+        margin-bottom: 6px;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="menu">
+      <h2>📰 Jornal</h2>
+      <button onclick="filtrar('todas')">Todas</button>
+      <button onclick="filtrar('eventos')">Eventos</button>
+      <button onclick="filtrar('projetos')">Projetos</button>
+      <button onclick="filtrar('esportes')">Esportes</button>
+    </div>
+
+    <div class="conteudo">
+      <div class="topo">
+        <h1>Jornal Escolar Digital</h1>
+      </div>
+
+      <div class="form">
+        <h3>Nova notícia</h3>
+
+        <input id="titulo" placeholder="Título" />
+        <textarea id="texto" placeholder="Texto"></textarea>
+
+        <select id="categoria">
+          <option value="eventos">Eventos</option>
+          <option value="projetos">Projetos</option>
+          <option value="esportes">Esportes</option>
+        </select>
+
+        <input type="file" id="imagem" />
+        <button class="btn" onclick="publicar()">Publicar</button>
+      </div>
+
+      <div class="grid" id="lista"></div>
+    </div>
+
+    <script>
+      let noticias = JSON.parse(localStorage.getItem("noticias") || "[]");
+      mostrar(noticias);
+
+      function salvar() {
+        localStorage.setItem("noticias", JSON.stringify(noticias));
+      }
+
+      function publicar() {
+        let titulo = tituloEl().value;
+        let texto = textoEl().value;
+        let categoria = categoriaEl().value;
+        let file = imagemEl().files[0];
+
+        if (!titulo || !texto) {
+          alert("Preencha os campos");
+          return;
+        }
+
+        let reader = new FileReader();
+        reader.onload = (e) => {
+          noticias.unshift({ titulo, texto, categoria, img: e.target.result });
+          salvar();
+          mostrar(noticias);
+        };
+
+        if (file) reader.readAsDataURL(file);
+        else {
+          noticias.unshift({ titulo, texto, categoria, img: "" });
+          salvar();
+          mostrar(noticias);
+        }
+      }
+
+      function mostrar(lista) {
+        let html = "";
+        lista.forEach((n, i) => {
+          html += `
+          <div class="card">
+            ${n.img ? `<img src="${n.img}">` : ""}
+            <div class="txt">
+              <div class="categoria">${n.categoria}</div>
+              <h3>${n.titulo}</h3>
+              <p>${n.texto}</p>
+              <button onclick="excluir(${i})">Excluir</button>
+            </div>
+          </div>`;
+        });
+        document.getElementById("lista").innerHTML = html;
+      }
+
+      function excluir(i) {
+        noticias.splice(i, 1);
+        salvar();
+        mostrar(noticias);
+      }
+
+      function filtrar(cat) {
+        if (cat == "todas") mostrar(noticias);
+        else mostrar(noticias.filter((n) => n.categoria == cat));
+      }
+
+      const tituloEl = () => document.getElementById("titulo");
+      const textoEl = () => document.getElementById("texto");
+      const categoriaEl = () => document.getElementById("categoria");
+      const imagemEl = () => document.getElementById("imagem");
+    </script>
+  </body>
+</html>

@@ -1,0 +1,21 @@
+// ─── Regras do Firebase Storage ───────────────────────────────────────────
+// Cole estas regras em:
+// Firebase Console → Storage → Regras
+// ──────────────────────────────────────────────────────────────────────────
+
+rules_version = '2';
+service firebase.storage {
+  match /b/{bucket}/o {
+
+    // Pasta de imagens das notícias
+    match /noticias/{arquivo} {
+      // Qualquer pessoa pode VER as imagens
+      allow read: if true;
+      // Apenas usuários autenticados podem fazer UPLOAD e DELETAR
+      allow write: if request.auth != null
+                   && request.resource.size < 5 * 1024 * 1024   // máx 5 MB
+                   && request.resource.contentType.matches('image/.*');
+      allow delete: if request.auth != null;
+    }
+  }
+}

@@ -1,0 +1,16 @@
+// ─── Regras do Firestore ───────────────────────────────────────────────────
+// Cole estas regras em:
+// Firebase Console → Firestore → Regras
+// ──────────────────────────────────────────────────────────────────────────
+
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Notícias: qualquer pessoa pode LER, apenas usuários autenticados podem ESCREVER
+    match /noticias/{noticia} {
+      allow read:  if true;
+      allow write: if request.auth != null;
+    }
+  }
+}

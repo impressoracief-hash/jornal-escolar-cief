@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Jornal Escolar Digital - Notícias da escola" />
+    <title>Jornal Escolar Digital</title>
+    <link rel="stylesheet" href="leitor.css" />
+  </head>
+
+  <body>
+    <button class="menu-toggle" onclick="toggleMenu()" aria-label="Abrir menu">☰</button>
+
+    <nav class="menu" role="navigation" aria-label="Menu de categorias">
+      <div class="menu-brand">
+        <span class="brand-icon">📰</span>
+        <h2>Jornal Escolar</h2>
+        <small>Edição Digital</small>
+      </div>
+      <div class="menu-nav">
+        <p>Categorias</p>
+        <button onclick="filtrar('todas')" class="active">🗞️ Todas as notícias</button>
+        <button onclick="filtrar('eventos')">🎉 Eventos</button>
+        <button onclick="filtrar('projetos')">🔬 Projetos</button>
+        <button onclick="filtrar('esportes')">⚽ Esportes</button>
+      </div>
+      <div class="menu-footer">
+        📅 <span id="data-hoje"></span>
+      </div>
+    </nav>
+
+    <main class="conteudo">
+      <header class="topo">
+        <div class="topo-deco"></div>
+        <div class="topo-inner">
+          <span class="topo-kicker">✦ Jornal Escolar Digital</span>
+          <h1>Notícias da<br>nossa escola</h1>
+          <p>Fique por dentro de tudo que acontece: eventos, projetos e esportes.</p>
+        </div>
+        <div class="topo-bar">
+          <span>🗓️ <span id="data-topo"></span></span>
+          <span>📌 <span id="total-noticias">0</span> notícias publicadas</span>
+        </div>
+      </header>
+
+      <!-- Notícia em destaque -->
+      <div id="destaque-wrapper"></div>
+
+      <!-- Seção de mais notícias -->
+      <div id="secao-mais" style="display:none;">
+        <div class="secao-titulo">
+          <h2>Mais notícias</h2>
+          <div class="secao-linha"></div>
+        </div>
+      </div>
+
+      <div class="grid-wrapper">
+        <section class="grid" id="lista" aria-label="Notícias publicadas"></section>
+      </div>
+    </main>
+
+    <script type="module" src="leitor.js"></script>
+  </body>
+</html>
