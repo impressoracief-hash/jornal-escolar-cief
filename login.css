@@ -38,12 +38,10 @@ body {
 .login-logo-escola {
   width: 100px;
   height: 100px;
-  object-fit: contain;
-  border-radius: 16px;
+  object-fit: cover;
+  border-radius: 50%;
   display: block;
   margin: 0 auto 16px;
-  background: white;
-  padding: 8px;
   box-shadow: 0 4px 20px rgba(0,0,0,.3);
 }
 
