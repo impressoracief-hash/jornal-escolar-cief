@@ -170,13 +170,26 @@ window.filtrar = function(cat) {
   filtroAtual = cat;
   document.querySelectorAll(".menu-nav button").forEach(btn => btn.classList.remove("active"));
   if (event?.target) event.target.classList.add("active");
+
   const filtradas = cat === "todas" ? noticias : noticias.filter(n => n.categoria === cat);
   renderizar(filtradas);
+
+  // No mobile: fecha o menu e rola para o topo para mostrar o conteúdo
+  const menu    = document.querySelector(".menu");
+  const overlay = document.getElementById("menu-overlay");
+  if (menu && menu.classList.contains("open")) {
+    menu.classList.remove("open");
+    if (overlay) overlay.classList.remove("visible");
+  }
+  window.scrollTo({ top: 0, behavior: "smooth" });
 };
 
 // ─── Menu mobile ──────────────────────────────────────────────────────────
 window.toggleMenu = function() {
-  document.querySelector(".menu").classList.toggle("open");
+  const menu    = document.querySelector(".menu");
+  const overlay = document.getElementById("menu-overlay");
+  menu.classList.toggle("open");
+  if (overlay) overlay.classList.toggle("visible");
 };
 
 // ─── Imagem HTML ──────────────────────────────────────────────────────────

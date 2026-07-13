@@ -11,6 +11,9 @@
   <body>
     <button class="menu-toggle" onclick="toggleMenu()" aria-label="Abrir menu">☰</button>
 
+    <!-- Overlay escuro para fechar menu no mobile -->
+    <div id="menu-overlay" onclick="toggleMenu()"></div>
+
     <nav class="menu" role="navigation" aria-label="Menu de categorias">
       <div class="menu-brand">
         <span class="brand-icon">📰</span>
