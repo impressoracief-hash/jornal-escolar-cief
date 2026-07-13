@@ -104,6 +104,7 @@ body {
 .stat-box.verde .stat-num { color: #34d399; }
 .stat-box.laranja .stat-num { color: #fbbf24; }
 .stat-box.roxo .stat-num { color: #a78bfa; }
+.stat-box.rosa .stat-num { color: #f472b6; }
 
 /* Navegação */
 .menu-nav {
@@ -523,6 +524,7 @@ input[type="file"] {
 .categoria.eventos  { background: #dbeafe; color: #1e40af; }
 .categoria.projetos { background: #dcfce7; color: #166534; }
 .categoria.esportes { background: #fef3c7; color: #92400e; }
+.categoria.clubelivro { background: #fce7f3; color: #9d174d; }
 
 .card h3 {
   margin: 0 0 6px;

@@ -350,14 +350,15 @@ function filtrar(cat) {
     btn.classList.remove("active");
     const t = btn.textContent.toLowerCase();
     if ((cat === "todas" && t.includes("todas")) ||
-        (cat === "eventos"  && t.includes("eventos"))  ||
-        (cat === "projetos" && t.includes("projetos")) ||
-        (cat === "esportes" && t.includes("esportes"))) {
+        (cat === "eventos"     && t.includes("eventos"))     ||
+        (cat === "projetos"    && t.includes("projetos"))    ||
+        (cat === "esportes"    && t.includes("esportes"))    ||
+        (cat === "clubelivro"  && t.includes("clube"))) {
       btn.classList.add("active");
     }
   });
 
-  const nomes = { todas: "Todas as categorias", eventos: "Eventos", projetos: "Projetos", esportes: "Esportes" };
+  const nomes = { todas: "Todas as categorias", eventos: "Eventos", projetos: "Projetos", esportes: "Esportes", clubelivro: "Clube do Livro" };
   const badge = document.getElementById("badge-filtro");
   if (badge) badge.textContent = `📋 ${nomes[cat] || cat}`;
 
@@ -368,10 +369,11 @@ window.filtrar = filtrar;
 
 // ─── Estatísticas ─────────────────────────────────────────────────────────
 function atualizarStats() {
-  document.getElementById("stat-total").textContent    = noticias.length;
-  document.getElementById("stat-eventos").textContent  = noticias.filter(n => n.categoria === "eventos").length;
-  document.getElementById("stat-esportes").textContent = noticias.filter(n => n.categoria === "esportes").length;
-  document.getElementById("stat-projetos").textContent = noticias.filter(n => n.categoria === "projetos").length;
+  document.getElementById("stat-total").textContent      = noticias.length;
+  document.getElementById("stat-eventos").textContent    = noticias.filter(n => n.categoria === "eventos").length;
+  document.getElementById("stat-esportes").textContent   = noticias.filter(n => n.categoria === "esportes").length;
+  document.getElementById("stat-projetos").textContent   = noticias.filter(n => n.categoria === "projetos").length;
+  document.getElementById("stat-clubelivro").textContent = noticias.filter(n => n.categoria === "clubelivro").length;
 }
 
 // ─── Modal de visualização ────────────────────────────────────────────────
