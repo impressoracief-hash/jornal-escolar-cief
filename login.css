@@ -35,6 +35,18 @@ body {
   text-align: center;
 }
 
+.login-logo-escola {
+  width: 100px;
+  height: 100px;
+  object-fit: contain;
+  border-radius: 16px;
+  display: block;
+  margin: 0 auto 16px;
+  background: white;
+  padding: 8px;
+  box-shadow: 0 4px 20px rgba(0,0,0,.3);
+}
+
 .login-logo {
   font-size: 52px;
   margin-bottom: 16px;

@@ -50,6 +50,19 @@ body {
   padding: 28px 24px 20px;
   border-bottom: 1px solid rgba(255,255,255,.08);
   background: linear-gradient(135deg, #1e3a5f 0%, #0f172a 100%);
+  text-align: center;
+}
+
+.menu-logo {
+  width: 80px;
+  height: 80px;
+  object-fit: contain;
+  border-radius: 12px;
+  display: block;
+  margin: 0 auto 12px;
+  background: white;
+  padding: 6px;
+  box-shadow: 0 4px 12px rgba(0,0,0,.3);
 }
 
 .menu-brand .brand-icon {
