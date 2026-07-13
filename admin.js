@@ -319,24 +319,23 @@ function mostrar(lista) {
 
   let html = "";
   lista.forEach((n) => {
-    const cfg = n.imgConfig || { largura: 300, altura: 200, posicao: "topo" };
-    const pos = cfg.posicao || "topo";
-    const img = montarImagemHTML(n, "card");
-    const temCardMedia = !n.img || pos === "topo" || pos === "abaixo";
+    // No card do admin a imagem SEMPRE fica no card-media (150px fixo)
+    // A posição configurada só afeta modal e leitor público
+    const mediaHTML = n.img
+      ? `<img src="${n.img}" alt="${escapeHtml(n.titulo)}"
+              style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0;">`
+      : "📰";
 
     html += `
       <div class="card">
-        ${temCardMedia ? `
-          <div class="card-media">
-            ${n.img ? img.antes : "📰"}
-          </div>` : ""}
+        <div class="card-media">
+          ${mediaHTML}
+        </div>
         <div class="txt">
           <div class="categoria ${n.categoria}">${n.categoria}</div>
-          ${img.dentro}
           <h3>${escapeHtml(n.titulo)}</h3>
           <p>${escapeHtml(n.texto)}</p>
-          ${img.depois}
-          <div class="card-actions" style="clear:both;">
+          <div class="card-actions">
             <button class="btn-visualizar-noticia" onclick="visualizarNoticia('${n.id}')">👁️</button>
             <button class="btn-editar"             onclick="editar('${n.id}')">✏️ Editar</button>
             <button class="btn-excluir"            onclick="confirmarExclusao('${n.id}')">🗑️</button>
