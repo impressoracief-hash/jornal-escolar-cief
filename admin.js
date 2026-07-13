@@ -358,7 +358,7 @@ function filtrar(cat) {
     }
   });
 
-  const nomes = { todas: "Todas as categorias", eventos: "Eventos", projetos: "Projetos", esportes: "Esportes", clubelivro: "Clube do Livro" };
+  const nomes = { todas: "Todas as categorias", eventos: "Eventos", projetos: "Projetos", esportes: "Esportes", clubelivro: "Entre Páginas" };
   const badge = document.getElementById("badge-filtro");
   if (badge) badge.textContent = `📋 ${nomes[cat] || cat}`;
 
