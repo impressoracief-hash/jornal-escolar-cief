@@ -275,7 +275,7 @@ window.cancelarEdicao = cancelarEdicao;
 function limparFormulario() {
   document.getElementById("titulo").value    = "";
   document.getElementById("texto").value     = "";
-  document.getElementById("categoria").value = "eventos";
+  document.getElementById("categoria").value = "ficcao";
   document.getElementById("imagem").value    = "";
   document.getElementById("largura").value   = "300";
   document.getElementById("altura").value    = "200";
@@ -353,16 +353,50 @@ function filtrar(cat) {
   document.querySelectorAll(".menu nav button").forEach(btn => {
     btn.classList.remove("active");
     const t = btn.textContent.toLowerCase();
-    if ((cat === "todas" && t.includes("todas")) ||
-        (cat === "eventos"     && t.includes("eventos"))     ||
-        (cat === "projetos"    && t.includes("projetos"))    ||
-        (cat === "esportes"    && t.includes("esportes"))    ||
-        (cat === "clubelivro"  && t.includes("clube"))) {
+    if ((cat === "todas"             && t.includes("acervo"))          ||
+        (cat === "ficcao"            && t.includes("ficção") && !t.includes("científica")) ||
+        (cat === "aventura"          && t.includes("aventura"))        ||
+        (cat === "romance"           && t.includes("romance"))         ||
+        (cat === "terror"            && t.includes("terror"))          ||
+        (cat === "comedia"           && t.includes("comédia"))         ||
+        (cat === "misterio"          && t.includes("mistério"))        ||
+        (cat === "fantasia"          && t.includes("fantasia"))        ||
+        (cat === "ficcaocientifica"  && t.includes("científica"))      ||
+        (cat === "suspense"          && t.includes("suspense"))        ||
+        (cat === "historico"         && t.includes("histórico"))       ||
+        (cat === "biografia"         && t.includes("biografia"))       ||
+        (cat === "drama"             && t.includes("drama"))           ||
+        (cat === "autoajuda"         && t.includes("autoajuda"))       ||
+        (cat === "mitologia"         && t.includes("mitologia"))       ||
+        (cat === "poesia"            && t.includes("poesia"))          ||
+        (cat === "teatro"            && t.includes("teatro"))          ||
+        (cat === "infantil"          && t.includes("infantil"))        ||
+        (cat === "juvenil"           && t.includes("juvenil"))) {
       btn.classList.add("active");
     }
   });
 
-  const nomes = { todas: "Todas as categorias", eventos: "Eventos", projetos: "Projetos", esportes: "Esportes", clubelivro: "Entre Páginas" };
+  const nomes = {
+    todas: "Acervo Completo",
+    ficcao: "Ficção",
+    aventura: "Aventura",
+    romance: "Romance",
+    terror: "Terror",
+    comedia: "Comédia/Humor",
+    misterio: "Mistério",
+    fantasia: "Fantasia",
+    ficcaocientifica: "Ficção Científica",
+    suspense: "Suspense",
+    historico: "Histórico",
+    biografia: "Biografia",
+    drama: "Drama",
+    autoajuda: "Autoajuda",
+    mitologia: "Mitologia e Lendas",
+    poesia: "Poesia",
+    teatro: "Teatro",
+    infantil: "Infantil/Infantojuvenil",
+    juvenil: "Juvenil"
+  };
   const badge = document.getElementById("badge-filtro");
   if (badge) badge.textContent = `📋 ${nomes[cat] || cat}`;
 
@@ -382,11 +416,25 @@ window.filtrar = filtrar;
 
 // ─── Estatísticas ─────────────────────────────────────────────────────────
 function atualizarStats() {
-  document.getElementById("stat-total").textContent      = noticias.length;
-  document.getElementById("stat-eventos").textContent    = noticias.filter(n => n.categoria === "eventos").length;
-  document.getElementById("stat-esportes").textContent   = noticias.filter(n => n.categoria === "esportes").length;
-  document.getElementById("stat-projetos").textContent   = noticias.filter(n => n.categoria === "projetos").length;
-  document.getElementById("stat-clubelivro").textContent = noticias.filter(n => n.categoria === "clubelivro").length;
+  document.getElementById("stat-total").textContent          = noticias.length;
+  document.getElementById("stat-ficcao").textContent         = noticias.filter(n => n.categoria === "ficcao").length;
+  document.getElementById("stat-romance").textContent        = noticias.filter(n => n.categoria === "romance").length;
+  document.getElementById("stat-aventura").textContent       = noticias.filter(n => n.categoria === "aventura").length;
+  document.getElementById("stat-terror").textContent         = noticias.filter(n => n.categoria === "terror").length;
+  document.getElementById("stat-comedia").textContent        = noticias.filter(n => n.categoria === "comedia").length;
+  document.getElementById("stat-misterio").textContent       = noticias.filter(n => n.categoria === "misterio").length;
+  document.getElementById("stat-fantasia").textContent       = noticias.filter(n => n.categoria === "fantasia").length;
+  document.getElementById("stat-ficcaocientifica").textContent = noticias.filter(n => n.categoria === "ficcaocientifica").length;
+  document.getElementById("stat-suspense").textContent       = noticias.filter(n => n.categoria === "suspense").length;
+  document.getElementById("stat-historico").textContent      = noticias.filter(n => n.categoria === "historico").length;
+  document.getElementById("stat-biografia").textContent      = noticias.filter(n => n.categoria === "biografia").length;
+  document.getElementById("stat-drama").textContent          = noticias.filter(n => n.categoria === "drama").length;
+  document.getElementById("stat-autoajuda").textContent      = noticias.filter(n => n.categoria === "autoajuda").length;
+  document.getElementById("stat-mitologia").textContent      = noticias.filter(n => n.categoria === "mitologia").length;
+  document.getElementById("stat-poesia").textContent         = noticias.filter(n => n.categoria === "poesia").length;
+  document.getElementById("stat-teatro").textContent         = noticias.filter(n => n.categoria === "teatro").length;
+  document.getElementById("stat-infantil").textContent       = noticias.filter(n => n.categoria === "infantil").length;
+  document.getElementById("stat-juvenil").textContent        = noticias.filter(n => n.categoria === "juvenil").length;
 }
 
 // ─── Modal de visualização ────────────────────────────────────────────────

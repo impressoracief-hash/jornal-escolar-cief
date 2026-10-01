@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="Jornal Escolar Digital - Notícias da escola" />
+    <meta name="description" content="Jornal Escolar Digital - Escolha sua aventura" />
     <title>Jornal Escolar Digital</title>
     <link rel="stylesheet" href="leitor.css" />
   </head>
@@ -23,11 +23,25 @@
       </div>
       <div class="menu-nav">
         <p>Categorias</p>
-        <button onclick="filtrar('todas')" class="active">🗞️ Todas as notícias</button>
-        <button onclick="filtrar('eventos')">🎉 Eventos</button>
-        <button onclick="filtrar('projetos')">🔬 Projetos</button>
-        <button onclick="filtrar('esportes')">⚽ Esportes</button>
-        <button onclick="filtrar('clubelivro')">📚 Entre Páginas</button>
+        <button onclick="filtrar('todas')" class="active">📚 Acervo Completo <span class="stat-badge" id="stat-total">0</span></button>
+        <button onclick="filtrar('ficcao')">📖 Ficção <span class="stat-badge" id="stat-ficcao">0</span></button>
+        <button onclick="filtrar('aventura')">🗺️ Aventura <span class="stat-badge" id="stat-aventura">0</span></button>
+        <button onclick="filtrar('romance')">❤️ Romance <span class="stat-badge" id="stat-romance">0</span></button>
+        <button onclick="filtrar('terror')">👻 Terror <span class="stat-badge" id="stat-terror">0</span></button>
+        <button onclick="filtrar('comedia')">😂 Comédia/Humor <span class="stat-badge" id="stat-comedia">0</span></button>
+        <button onclick="filtrar('misterio')">🔍 Mistério <span class="stat-badge" id="stat-misterio">0</span></button>
+        <button onclick="filtrar('fantasia')">🧙 Fantasia <span class="stat-badge" id="stat-fantasia">0</span></button>
+        <button onclick="filtrar('ficcaocientifica')">🚀 Ficção Científica <span class="stat-badge" id="stat-ficcaocientifica">0</span></button>
+        <button onclick="filtrar('suspense')">🕵️ Suspense <span class="stat-badge" id="stat-suspense">0</span></button>
+        <button onclick="filtrar('historico')">🏛️ Histórico <span class="stat-badge" id="stat-historico">0</span></button>
+        <button onclick="filtrar('biografia')">🌎 Biografia <span class="stat-badge" id="stat-biografia">0</span></button>
+        <button onclick="filtrar('drama')">🌱 Drama <span class="stat-badge" id="stat-drama">0</span></button>
+        <button onclick="filtrar('autoajuda')">🧠 Autoajuda <span class="stat-badge" id="stat-autoajuda">0</span></button>
+        <button onclick="filtrar('mitologia')">🐉 Mitologia e Lendas <span class="stat-badge" id="stat-mitologia">0</span></button>
+        <button onclick="filtrar('poesia')">📚 Poesia <span class="stat-badge" id="stat-poesia">0</span></button>
+        <button onclick="filtrar('teatro')">🎭 Teatro <span class="stat-badge" id="stat-teatro">0</span></button>
+        <button onclick="filtrar('infantil')">🧒 Infantil/Infantojuvenil <span class="stat-badge" id="stat-infantil">0</span></button>
+        <button onclick="filtrar('juvenil')">🧑‍🎓 Juvenil <span class="stat-badge" id="stat-juvenil">0</span></button>
       </div>
       <div class="menu-footer">
         📅 <span id="data-hoje"></span>
@@ -38,29 +52,29 @@
       <header class="topo">
         <div class="topo-deco"></div>
         <div class="topo-inner">
-          <span class="topo-kicker">✦ Jornal Escolar Digital</span>
-          <h1>Notícias da<br>nossa escola</h1>
-          <p>Fique por dentro de tudo que acontece: eventos, projetos e esportes.</p>
+          <span class="topo-kicker">📖 Jornal Escolar Digital</span>
+          <h1>Escolha sua<br>aventura</h1>
+          <p>Ficção, aventura, romance ou terror — qual história vai ser a sua?</p>
         </div>
         <div class="topo-bar">
           <span>🗓️ <span id="data-topo"></span></span>
-          <span>📌 <span id="total-noticias">0</span> notícias publicadas</span>
+          <span>📌 <span id="total-noticias">0</span> histórias publicadas</span>
         </div>
       </header>
 
-      <!-- Notícia em destaque -->
+      <!-- História em destaque -->
       <div id="destaque-wrapper"></div>
 
-      <!-- Seção de mais notícias -->
+      <!-- Seção de mais histórias -->
       <div id="secao-mais" style="display:none;">
         <div class="secao-titulo">
-          <h2>Mais notícias</h2>
+          <h2>Mais histórias</h2>
           <div class="secao-linha"></div>
         </div>
       </div>
 
       <div class="grid-wrapper">
-        <section class="grid" id="lista" aria-label="Notícias publicadas"></section>
+        <section class="grid" id="lista" aria-label="Histórias publicadas"></section>
       </div>
     </main>
 

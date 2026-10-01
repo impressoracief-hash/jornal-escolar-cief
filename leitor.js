@@ -17,9 +17,29 @@ document.addEventListener("DOMContentLoaded", () => {
     const filtradas = filtroAtual === "todas"
       ? noticias
       : noticias.filter(n => n.categoria === filtroAtual);
+    atualizarStats();
     renderizar(filtradas);
   });
 });
+
+// ─── Estatísticas dos badges do menu ─────────────────────────────────────
+function atualizarStats() {
+  const categorias = [
+    "total","ficcao","aventura","romance","terror","comedia","misterio",
+    "fantasia","ficcaocientifica","suspense","historico","biografia",
+    "drama","autoajuda","mitologia","poesia","teatro","infantil","juvenil"
+  ];
+  categorias.forEach(cat => {
+    const el = document.getElementById(`stat-${cat}`);
+    if (!el) return;
+    const count = cat === "total"
+      ? noticias.length
+      : noticias.filter(n => n.categoria === cat).length;
+    el.textContent = count;
+    // Destaca visualmente se tiver publicações
+    el.classList.toggle("vazio", count === 0);
+  });
+}
 
 // ─── Datas ────────────────────────────────────────────────────────────────
 function atualizarDatas() {
@@ -57,7 +77,9 @@ function renderDestaque(lista) {
 
   const mediaHTML = n.img
     ? `<img src="${n.img}" alt="${escapeHtml(n.titulo)}"
-            style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0;">`
+            style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0;cursor:zoom-in;"
+            onclick="event.stopPropagation();abrirLightbox('${n.id}')"
+            title="Clique para ampliar">`
     : "";
 
   wrapper.innerHTML = `
@@ -75,7 +97,7 @@ function renderDestaque(lista) {
         <div class="destaque-meta">
           ${data ? `<span>📅 ${data}</span>` : ""}
           <button class="btn-ler" onclick="event.stopPropagation();abrirModal('${n.id}')">
-            Ler notícia →
+            📖 Abrir história →
           </button>
         </div>
       </div>
@@ -92,7 +114,7 @@ function renderGrid(lista) {
     container.innerHTML = `
       <div class="empty-state">
         <div class="empty-icon">📰</div>
-        <h3>Nenhuma notícia publicada ainda</h3>
+        <h3>Nenhuma história publicada ainda</h3>
         <p>Volte em breve para conferir as novidades!</p>
       </div>`;
     return;
@@ -135,7 +157,15 @@ window.abrirModal = function(id) {
   const n = noticias.find(x => x.id === id);
   if (!n) return;
   const data = n.data?.toDate ? formatarData(n.data.toDate()) : "";
-  const img  = montarImagemHTML(n, "modal");
+
+  // Imagem maior no modal — ocupa largura total
+  const imgHTML = n.img
+    ? `<div class="modal-img-wrapper">
+         <img src="${n.img}" alt="${escapeHtml(n.titulo)}" class="modal-img-grande"
+              onclick="abrirLightbox('${n.id}')" title="Clique para ampliar 🔍">
+         <span class="modal-img-dica">🔍 Clique na imagem para ampliar</span>
+       </div>`
+    : "";
 
   const modal = document.createElement("div");
   modal.className = "modal-preview";
@@ -144,16 +174,14 @@ window.abrirModal = function(id) {
   modal.innerHTML = `
     <div class="modal-content">
       <div class="modal-header">
-        <h3>📰 Notícia completa</h3>
+        <h3>📖 História completa</h3>
         <button class="modal-close" onclick="this.closest('.modal-preview').remove()" aria-label="Fechar">✕</button>
       </div>
       <div class="modal-body">
-        ${img.antes}
+        ${imgHTML}
         <span class="categoria ${n.categoria}">${n.categoria}</span>
         <h2>${escapeHtml(n.titulo)}</h2>
-        ${img.dentro}
         <p>${escapeHtml(n.texto)}</p>
-        ${img.depois}
         ${data ? `<p style="font-size:13px;color:#94a3b8;margin-top:20px;clear:both;">📅 ${data}</p>` : ""}
       </div>
     </div>`;
@@ -203,7 +231,17 @@ function montarImagemHTML(n, contexto) {
 
   let style = "";
   if (contexto === "card" && (pos === "topo" || pos === "abaixo")) {
+    // Card: imagem preenche o card-media fixo, dimensões configuradas não se aplicam
     style = "width:100%;height:100%;object-fit:cover;position:absolute;inset:0;";
+  } else if (contexto === "modal") {
+    // Modal: respeita dimensões mas protege contra distorção
+    if (pos === "topo" || pos === "abaixo") {
+      style = `width:${w}px;max-width:100%;height:auto;max-height:${h}px;object-fit:cover;border-radius:8px;display:block;margin-bottom:12px;`;
+    } else if (pos === "esquerda") {
+      style = `width:${w}px;max-width:45%;height:${h}px;object-fit:cover;float:left;margin:0 16px 10px 0;border-radius:6px;`;
+    } else {
+      style = `width:${w}px;max-width:45%;height:${h}px;object-fit:cover;float:right;margin:0 0 10px 16px;border-radius:6px;`;
+    }
   } else if (pos === "esquerda") {
     style = `width:${w}px;height:${h}px;object-fit:cover;float:left;margin:0 16px 10px 0;border-radius:6px;`;
   } else if (pos === "direita") {
@@ -217,6 +255,28 @@ function montarImagemHTML(n, contexto) {
   if (pos === "abaixo") return { antes: "", dentro: "", depois: tag };
   return { antes: "", dentro: tag, depois: '<div style="clear:both;"></div>' };
 }
+
+// ─── Lightbox (imagem em tela cheia) ─────────────────────────────────────
+window.abrirLightbox = function(id) {
+  const n = noticias.find(x => x.id === id);
+  if (!n || !n.img) return;
+
+  const lb = document.createElement("div");
+  lb.className = "lightbox";
+  lb.innerHTML = `
+    <button class="lightbox-close" aria-label="Fechar">✕</button>
+    <img src="${n.img}" alt="${escapeHtml(n.titulo)}" class="lightbox-img">
+    <p class="lightbox-legenda">${escapeHtml(n.titulo)}</p>`;
+
+  document.body.appendChild(lb);
+  // Fecha ao clicar fora da imagem ou no botão
+  lb.addEventListener("click", e => {
+    if (e.target === lb || e.target.classList.contains("lightbox-close")) lb.remove();
+  });
+  document.addEventListener("keydown", function esc(e) {
+    if (e.key === "Escape") { lb.remove(); document.removeEventListener("keydown", esc); }
+  });
+};
 
 // ─── Utilitários ──────────────────────────────────────────────────────────
 function formatarData(d) {

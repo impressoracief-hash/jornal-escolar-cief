@@ -43,7 +43,7 @@ body {
   z-index: 1000;
   display: flex;
   flex-direction: column;
-  overflow: hidden;
+  overflow: hidden; /* mantido — o scroll fica só no menu-nav */
 }
 
 .menu-brand {
@@ -87,6 +87,27 @@ body {
 .menu-nav {
   padding: 20px 16px;
   flex: 1;
+  overflow-y: auto;
+  /* barra de rolagem discreta */
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255,255,255,.15) transparent;
+}
+
+.menu-nav::-webkit-scrollbar {
+  width: 4px;
+}
+
+.menu-nav::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.menu-nav::-webkit-scrollbar-thumb {
+  background: rgba(255,255,255,.15);
+  border-radius: 4px;
+}
+
+.menu-nav::-webkit-scrollbar-thumb:hover {
+  background: rgba(255,255,255,.3);
 }
 
 .menu-nav p {
@@ -125,6 +146,38 @@ body {
   background: var(--blue);
   color: white;
   box-shadow: 0 4px 12px rgba(37,99,235,.35);
+}
+
+/* Badge de contagem no menu do leitor */
+.stat-badge {
+  margin-left: auto;
+  background: rgba(255,255,255,.13);
+  color: #94a3b8;
+  font-size: 11px;
+  font-weight: 700;
+  min-width: 20px;
+  height: 20px;
+  border-radius: 10px;
+  padding: 0 6px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+  transition: all .2s;
+}
+
+.stat-badge.vazio {
+  opacity: 0.35;
+}
+
+.menu-nav button.active .stat-badge {
+  background: rgba(255,255,255,.25);
+  color: white;
+}
+
+.menu-nav button:hover .stat-badge {
+  background: rgba(255,255,255,.2);
+  color: white;
 }
 
 .menu-footer {
@@ -240,8 +293,8 @@ body {
   overflow: hidden;
   box-shadow: 0 8px 32px rgba(0,0,0,.09);
   display: grid;
-  grid-template-columns: 1fr 420px;
-  min-height: 320px;
+  grid-template-columns: 1fr 340px;
+  min-height: 200px;
   cursor: pointer;
   transition: box-shadow .3s, transform .3s;
 }
@@ -256,8 +309,9 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 80px;
-  min-height: 260px;
+  font-size: 60px;
+  min-height: 180px;
+  max-height: 220px;
   position: relative;
   overflow: hidden;
 }
@@ -267,6 +321,12 @@ body {
   object-fit: cover;
   position: absolute;
   inset: 0;
+  cursor: zoom-in;
+  transition: transform .3s;
+}
+
+.destaque-img img:hover {
+  transform: scale(1.03);
 }
 
 .destaque-body {
@@ -380,7 +440,7 @@ body {
 }
 
 .card-media {
-  height: 180px;
+  height: 140px;
   background: linear-gradient(135deg, #1e3a5f 0%, #334155 100%);
   display: flex;
   align-items: center;
@@ -417,10 +477,24 @@ body {
   width: fit-content;
 }
 
-.categoria.eventos  { background: #dbeafe; color: #1e40af; }
-.categoria.projetos { background: #dcfce7; color: #166534; }
-.categoria.esportes { background: #fef3c7; color: #92400e; }
-.categoria.clubelivro { background: #fce7f3; color: #9d174d; }
+.categoria.ficcao           { background: #dbeafe; color: #1e40af; }
+.categoria.aventura         { background: #dcfce7; color: #166534; }
+.categoria.romance          { background: #fce7f3; color: #9d174d; }
+.categoria.terror           { background: #f3e8ff; color: #6b21a8; }
+.categoria.comedia          { background: #fef9c3; color: #854d0e; }
+.categoria.misterio         { background: #e0e7ff; color: #3730a3; }
+.categoria.fantasia         { background: #fae8ff; color: #86198f; }
+.categoria.ficcaocientifica { background: #cffafe; color: #155e75; }
+.categoria.suspense         { background: #fee2e2; color: #991b1b; }
+.categoria.historico        { background: #fef3c7; color: #92400e; }
+.categoria.biografia        { background: #d1fae5; color: #065f46; }
+.categoria.drama            { background: #e0f2fe; color: #075985; }
+.categoria.autoajuda        { background: #f0fdf4; color: #14532d; }
+.categoria.mitologia        { background: #fff7ed; color: #9a3412; }
+.categoria.poesia           { background: #fdf2f8; color: #831843; }
+.categoria.teatro           { background: #fffbeb; color: #78350f; }
+.categoria.infantil         { background: #ecfdf5; color: #047857; }
+.categoria.juvenil          { background: #eff6ff; color: #1d4ed8; }
 
 .card h3 {
   margin: 0 0 10px;
@@ -511,12 +585,32 @@ body {
   padding: 28px;
 }
 
-.modal-body img {
-  width: 100%;
-  border-radius: 12px;
+/* Imagem grande no modal */
+.modal-img-wrapper {
+  position: relative;
   margin-bottom: 20px;
-  max-height: 320px;
+}
+
+.modal-img-grande {
+  width: 100%;
+  max-height: 420px;
   object-fit: cover;
+  border-radius: 12px;
+  display: block;
+  cursor: zoom-in;
+  transition: opacity .2s;
+}
+
+.modal-img-grande:hover {
+  opacity: 0.92;
+}
+
+.modal-img-dica {
+  display: block;
+  text-align: center;
+  font-size: 12px;
+  color: #94a3b8;
+  margin-top: 6px;
 }
 
 .modal-body h2 {
@@ -532,6 +626,63 @@ body {
   line-height: 1.75;
   font-size: 16px;
   margin: 0;
+}
+
+/* ─── LIGHTBOX ────────────────────────────── */
+.lightbox {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,.92);
+  z-index: 3000;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  animation: fadeIn .2s;
+}
+
+.lightbox-img {
+  max-width: 95vw;
+  max-height: 85vh;
+  object-fit: contain;
+  border-radius: 8px;
+  box-shadow: 0 8px 40px rgba(0,0,0,.6);
+}
+
+.lightbox-legenda {
+  color: #cbd5e1;
+  font-size: 14px;
+  margin-top: 16px;
+  text-align: center;
+  max-width: 600px;
+}
+
+.lightbox-close {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background: rgba(255,255,255,.1);
+  border: none;
+  color: white;
+  font-size: 20px;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background .2s;
+}
+
+.lightbox-close:hover {
+  background: #ef4444;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
 }
 
 /* ─── EMPTY STATE ─────────────────────────── */
@@ -589,7 +740,7 @@ body {
 /* ─── RESPONSIVO ──────────────────────────── */
 @media (max-width: 1024px) {
   .destaque { grid-template-columns: 1fr; }
-  .destaque-img { min-height: 220px; }
+  .destaque-img { min-height: 160px; max-height: 180px; }
   .topo-inner, .topo-bar, .secao-titulo, .grid-wrapper { padding-left: 32px; padding-right: 32px; }
   .destaque { margin-left: 32px; margin-right: 32px; }
 }

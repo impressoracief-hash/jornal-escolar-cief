@@ -19,37 +19,29 @@
         <small id="usuario-email">Carregando…</small>
       </div>
 
-      <div class="menu-stats">
-        <div class="stat-box azul">
-          <div class="stat-num" id="stat-total">0</div>
-          <div class="stat-lbl">Total</div>
-        </div>
-        <div class="stat-box verde">
-          <div class="stat-num" id="stat-eventos">0</div>
-          <div class="stat-lbl">Eventos</div>
-        </div>
-        <div class="stat-box laranja">
-          <div class="stat-num" id="stat-esportes">0</div>
-          <div class="stat-lbl">Esportes</div>
-        </div>
-        <div class="stat-box roxo">
-          <div class="stat-num" id="stat-projetos">0</div>
-          <div class="stat-lbl">Projetos</div>
-        </div>
-        <div class="stat-box rosa">
-          <div class="stat-num" id="stat-clubelivro">0</div>
-          <div class="stat-lbl">Entre Páginas</div>
-        </div>
-      </div>
 
       <div class="menu-nav">
         <div class="menu-nav-label">Filtrar por categoria</div>
         <nav>
-          <button onclick="filtrar('todas')" class="active">🗞️ Todas as notícias</button>
-          <button onclick="filtrar('eventos')">🎉 Eventos</button>
-          <button onclick="filtrar('projetos')">🔬 Projetos</button>
-          <button onclick="filtrar('esportes')">⚽ Esportes</button>
-          <button onclick="filtrar('clubelivro')">📚 Entre Páginas</button>
+          <button onclick="filtrar('todas')" class="active">📚 Acervo Completo <span class="stat-badge" id="stat-total">0</span></button>
+          <button onclick="filtrar('ficcao')">📖 Ficção <span class="stat-badge" id="stat-ficcao">0</span></button>
+          <button onclick="filtrar('aventura')">🗺️ Aventura <span class="stat-badge" id="stat-aventura">0</span></button>
+          <button onclick="filtrar('romance')">❤️ Romance <span class="stat-badge" id="stat-romance">0</span></button>
+          <button onclick="filtrar('terror')">👻 Terror <span class="stat-badge" id="stat-terror">0</span></button>
+          <button onclick="filtrar('comedia')">😂 Comédia/Humor <span class="stat-badge" id="stat-comedia">0</span></button>
+          <button onclick="filtrar('misterio')">🔍 Mistério <span class="stat-badge" id="stat-misterio">0</span></button>
+          <button onclick="filtrar('fantasia')">🧙 Fantasia <span class="stat-badge" id="stat-fantasia">0</span></button>
+          <button onclick="filtrar('ficcaocientifica')">🚀 Ficção Científica <span class="stat-badge" id="stat-ficcaocientifica">0</span></button>
+          <button onclick="filtrar('suspense')">🕵️ Suspense <span class="stat-badge" id="stat-suspense">0</span></button>
+          <button onclick="filtrar('historico')">🏛️ Histórico <span class="stat-badge" id="stat-historico">0</span></button>
+          <button onclick="filtrar('biografia')">🌎 Biografia <span class="stat-badge" id="stat-biografia">0</span></button>
+          <button onclick="filtrar('drama')">🌱 Drama <span class="stat-badge" id="stat-drama">0</span></button>
+          <button onclick="filtrar('autoajuda')">🧠 Autoajuda <span class="stat-badge" id="stat-autoajuda">0</span></button>
+          <button onclick="filtrar('mitologia')">🐉 Mitologia e Lendas <span class="stat-badge" id="stat-mitologia">0</span></button>
+          <button onclick="filtrar('poesia')">📚 Poesia <span class="stat-badge" id="stat-poesia">0</span></button>
+          <button onclick="filtrar('teatro')">🎭 Teatro <span class="stat-badge" id="stat-teatro">0</span></button>
+          <button onclick="filtrar('infantil')">🧒 Infantil/Infantojuvenil <span class="stat-badge" id="stat-infantil">0</span></button>
+          <button onclick="filtrar('juvenil')">🧑‍🎓 Juvenil <span class="stat-badge" id="stat-juvenil">0</span></button>
         </nav>
       </div>
 
@@ -65,7 +57,7 @@
           <h1>🔧 Painel de Administração</h1>
           <p>Gerencie as notícias do jornal escolar</p>
         </div>
-        <div class="topo-badge" id="badge-filtro">📋 Todas as categorias</div>
+        <div class="topo-badge" id="badge-filtro">📚 Acervo Completo</div>
       </header>
 
       <div class="painel-layout">
@@ -84,10 +76,24 @@
 
           <label for="categoria">Categoria</label>
           <select id="categoria">
-            <option value="eventos">🎉 Eventos</option>
-            <option value="projetos">🔬 Projetos</option>
-            <option value="esportes">⚽ Esportes</option>
-            <option value="clubelivro">📚 Entre Páginas</option>
+            <option value="ficcao">📖 Ficção</option>
+            <option value="aventura">🗺️ Aventura</option>
+            <option value="romance">❤️ Romance</option>
+            <option value="terror">👻 Terror</option>
+            <option value="comedia">😂 Comédia/Humor</option>
+            <option value="misterio">🔍 Mistério</option>
+            <option value="fantasia">🧙 Fantasia</option>
+            <option value="ficcaocientifica">🚀 Ficção Científica</option>
+            <option value="suspense">🕵️ Suspense</option>
+            <option value="historico">🏛️ Histórico</option>
+            <option value="biografia">🌎 Biografia</option>
+            <option value="drama">🌱 Drama</option>
+            <option value="autoajuda">🧠 Autoajuda</option>
+            <option value="mitologia">🐉 Mitologia e Lendas</option>
+            <option value="poesia">📚 Poesia</option>
+            <option value="teatro">🎭 Teatro</option>
+            <option value="infantil">🧒 Infantil/Infantojuvenil</option>
+            <option value="juvenil">🧑‍🎓 Juvenil</option>
           </select>
 
           <label>Imagem (opcional, máx. 5 MB)</label>

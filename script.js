@@ -99,7 +99,7 @@ function cancelarEdicao() {
 function limparFormulario() {
   document.getElementById("titulo").value = "";
   document.getElementById("texto").value = "";
-  document.getElementById("categoria").value = "eventos";
+  document.getElementById("categoria").value = "ficcao";
   document.getElementById("imagem").value = "";
 }
 
