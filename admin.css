@@ -563,8 +563,7 @@ input[type="file"] {
 .categoria.mitologia        { background: #fff7ed; color: #9a3412; }
 .categoria.poesia           { background: #fdf2f8; color: #831843; }
 .categoria.teatro           { background: #fffbeb; color: #78350f; }
-.categoria.infantil         { background: #ecfdf5; color: #047857; }
-.categoria.juvenil          { background: #eff6ff; color: #1d4ed8; }
+.categoria.mangas           { background: #fef9c3; color: #713f12; }
 
 .card h3 {
   margin: 0 0 6px;

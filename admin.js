@@ -105,6 +105,7 @@ function restaurarLabelImagem(controles, label) {
 async function publicar() {
   const titulo    = document.getElementById("titulo").value.trim();
   const texto     = document.getElementById("texto").value.trim();
+  const autor     = document.getElementById("autor").value.trim();
   const categoria = document.getElementById("categoria").value;
   const file      = document.getElementById("imagem").files[0];
 
@@ -131,7 +132,7 @@ async function publicar() {
     }
 
     const payload = {
-      titulo, texto, categoria,
+      titulo, texto, autor, categoria,
       img: imgURL,
       imgConfig,
       data: editandoId
@@ -218,6 +219,7 @@ function editar(id) {
 
   document.getElementById("titulo").value    = n.titulo;
   document.getElementById("texto").value     = n.texto;
+  document.getElementById("autor").value     = n.autor || "";
   document.getElementById("categoria").value = n.categoria;
 
   const controles = document.getElementById("controles-imagem");
@@ -266,7 +268,7 @@ function cancelarEdicao() {
   editandoId     = null;
   editandoImgURL = null;
   limparFormulario();
-  document.getElementById("form-titulo-texto").textContent = "Nova notícia";
+  document.getElementById("form-titulo-texto").textContent = "Nova publicação";
   document.getElementById("btn-publicar").innerHTML        = "🚀 Publicar notícia";
   document.querySelector(".btn-cancelar")?.remove();
 }
@@ -275,6 +277,7 @@ window.cancelarEdicao = cancelarEdicao;
 function limparFormulario() {
   document.getElementById("titulo").value    = "";
   document.getElementById("texto").value     = "";
+  document.getElementById("autor").value     = "";
   document.getElementById("categoria").value = "ficcao";
   document.getElementById("imagem").value    = "";
   document.getElementById("largura").value   = "300";
@@ -334,6 +337,7 @@ function mostrar(lista) {
         <div class="txt">
           <div class="categoria ${n.categoria}">${n.categoria}</div>
           <h3>${escapeHtml(n.titulo)}</h3>
+          ${n.autor ? `<p class="card-autor">✍️ ${escapeHtml(n.autor)}</p>` : ""}
           <p>${escapeHtml(n.texto)}</p>
           <div class="card-actions">
             <button class="btn-visualizar-noticia" onclick="visualizarNoticia('${n.id}')">👁️</button>
@@ -370,8 +374,7 @@ function filtrar(cat) {
         (cat === "mitologia"         && t.includes("mitologia"))       ||
         (cat === "poesia"            && t.includes("poesia"))          ||
         (cat === "teatro"            && t.includes("teatro"))          ||
-        (cat === "infantil"          && t.includes("infantil"))        ||
-        (cat === "juvenil"           && t.includes("juvenil"))) {
+        (cat === "mangas"            && t.includes("mangás"))) {
       btn.classList.add("active");
     }
   });
@@ -394,8 +397,7 @@ function filtrar(cat) {
     mitologia: "Mitologia e Lendas",
     poesia: "Poesia",
     teatro: "Teatro",
-    infantil: "Infantil/Infantojuvenil",
-    juvenil: "Juvenil"
+    mangas: "Mangás"
   };
   const badge = document.getElementById("badge-filtro");
   if (badge) badge.textContent = `📋 ${nomes[cat] || cat}`;
@@ -433,8 +435,7 @@ function atualizarStats() {
   document.getElementById("stat-mitologia").textContent      = noticias.filter(n => n.categoria === "mitologia").length;
   document.getElementById("stat-poesia").textContent         = noticias.filter(n => n.categoria === "poesia").length;
   document.getElementById("stat-teatro").textContent         = noticias.filter(n => n.categoria === "teatro").length;
-  document.getElementById("stat-infantil").textContent       = noticias.filter(n => n.categoria === "infantil").length;
-  document.getElementById("stat-juvenil").textContent        = noticias.filter(n => n.categoria === "juvenil").length;
+  document.getElementById("stat-mangas").textContent         = noticias.filter(n => n.categoria === "mangas").length;
 }
 
 // ─── Modal de visualização ────────────────────────────────────────────────
@@ -455,6 +456,7 @@ function visualizarNoticia(id) {
         ${img.antes}
         <span class="categoria ${n.categoria}">${n.categoria}</span>
         <h2>${escapeHtml(n.titulo)}</h2>
+        ${n.autor ? `<p class="modal-autor">✍️ ${escapeHtml(n.autor)}</p>` : ""}
         ${img.dentro}
         <p>${escapeHtml(n.texto)}</p>
         ${img.depois}

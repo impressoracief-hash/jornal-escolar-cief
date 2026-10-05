@@ -27,7 +27,7 @@ function atualizarStats() {
   const categorias = [
     "total","ficcao","aventura","romance","terror","comedia","misterio",
     "fantasia","ficcaocientifica","suspense","historico","biografia",
-    "drama","autoajuda","mitologia","poesia","teatro","infantil","juvenil"
+    "drama","autoajuda","mitologia","poesia","teatro","mangas"
   ];
   categorias.forEach(cat => {
     const el = document.getElementById(`stat-${cat}`);
@@ -56,76 +56,30 @@ function atualizarDatas() {
 function renderizar(lista) {
   const totalEl = document.getElementById("total-noticias");
   if (totalEl) totalEl.textContent = lista.length;
-  renderDestaque(lista);
+  // Limpa o destaque e a seção "mais" — não usados
+  const wrapper = document.getElementById("destaque-wrapper");
+  const secao   = document.getElementById("secao-mais");
+  if (wrapper) wrapper.innerHTML = "";
+  if (secao)   secao.style.display = "none";
   renderGrid(lista);
 }
 
-// ─── Destaque (primeira notícia) ──────────────────────────────────────────
-function renderDestaque(lista) {
-  const wrapper = document.getElementById("destaque-wrapper");
-  const secao   = document.getElementById("secao-mais");
-  if (!wrapper) return;
-
-  if (lista.length === 0) {
-    wrapper.innerHTML = "";
-    if (secao) secao.style.display = "none";
-    return;
-  }
-
-  const n    = lista[0];
-  const data = n.data?.toDate ? formatarData(n.data.toDate()) : "";
-
-  const mediaHTML = n.img
-    ? `<img src="${n.img}" alt="${escapeHtml(n.titulo)}"
-            style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0;cursor:zoom-in;"
-            onclick="event.stopPropagation();abrirLightbox('${n.id}')"
-            title="Clique para ampliar">`
-    : "";
-
-  wrapper.innerHTML = `
-    <article class="destaque" onclick="abrirModal('${n.id}')" role="article" tabindex="0"
-             onkeydown="if(event.key==='Enter')abrirModal('${n.id}')">
-      <div class="destaque-img">
-        ${mediaHTML}
-        ${!n.img ? "📰" : ""}
-      </div>
-      <div class="destaque-body">
-        <span class="destaque-kicker">⭐ Destaque</span>
-        <div class="categoria ${n.categoria}">${n.categoria}</div>
-        <h2>${escapeHtml(n.titulo)}</h2>
-        <p>${escapeHtml(n.texto).substring(0, 160)}${n.texto.length > 160 ? "…" : ""}</p>
-        <div class="destaque-meta">
-          ${data ? `<span>📅 ${data}</span>` : ""}
-          <button class="btn-ler" onclick="event.stopPropagation();abrirModal('${n.id}')">
-            📖 Abrir história →
-          </button>
-        </div>
-      </div>
-    </article>`;
-
-  if (secao) secao.style.display = lista.length > 1 ? "block" : "none";
-}
-
-// ─── Grid de cards ────────────────────────────────────────────────────────
+// ─── Grid de cards (todas as publicações, sem destaque) ───────────────────
 function renderGrid(lista) {
   const container = document.getElementById("lista");
 
   if (lista.length === 0) {
     container.innerHTML = `
       <div class="empty-state">
-        <div class="empty-icon">📰</div>
+        <div class="empty-icon">📚</div>
         <h3>Nenhuma história publicada ainda</h3>
         <p>Volte em breve para conferir as novidades!</p>
       </div>`;
     return;
   }
 
-  // Remove o destaque do grid
-  const itens = lista.length > 1 ? lista.slice(1) : [];
-  if (itens.length === 0) { container.innerHTML = ""; return; }
-
   let html = "";
-  itens.forEach((n) => {
+  lista.forEach((n) => {
     const cfg = n.imgConfig || { largura: 300, altura: 200, posicao: "topo" };
     const pos = cfg.posicao || "topo";
     const data = n.data?.toDate ? formatarData(n.data.toDate()) : "";
@@ -137,12 +91,13 @@ function renderGrid(lista) {
                tabindex="0" onkeydown="if(event.key==='Enter')abrirModal('${n.id}')">
         ${temCardMedia ? `
           <div class="card-media">
-            ${n.img ? img.antes : "📰"}
+            ${n.img ? img.antes : "📚"}
           </div>` : ""}
         <div class="txt">
           <span class="categoria ${n.categoria}">${n.categoria}</span>
           ${img.dentro}
           <h3>${escapeHtml(n.titulo)}</h3>
+          ${n.autor ? `<p class="card-autor">✍️ ${escapeHtml(n.autor)}</p>` : ""}
           <p>${escapeHtml(n.texto)}</p>
           ${img.depois}
           ${data ? `<div class="data" style="clear:both;">📅 ${data}</div>` : ""}
@@ -180,7 +135,7 @@ window.abrirModal = function(id) {
       <div class="modal-body">
         ${imgHTML}
         <span class="categoria ${n.categoria}">${n.categoria}</span>
-        <h2>${escapeHtml(n.titulo)}</h2>
+        <p class="modal-autor">✍️ ${escapeHtml(n.titulo)}</p>
         <p>${escapeHtml(n.texto)}</p>
         ${data ? `<p style="font-size:13px;color:#94a3b8;margin-top:20px;clear:both;">📅 ${data}</p>` : ""}
       </div>

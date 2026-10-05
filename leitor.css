@@ -493,8 +493,22 @@ body {
 .categoria.mitologia        { background: #fff7ed; color: #9a3412; }
 .categoria.poesia           { background: #fdf2f8; color: #831843; }
 .categoria.teatro           { background: #fffbeb; color: #78350f; }
-.categoria.infantil         { background: #ecfdf5; color: #047857; }
-.categoria.juvenil          { background: #eff6ff; color: #1d4ed8; }
+.categoria.mangas           { background: #fef9c3; color: #713f12; }
+
+/* Autor nos cards e modal */
+.card-autor {
+  font-size: 13px;
+  font-weight: 600;
+  color: #475569;
+  margin: 6px 0 8px;
+}
+
+.modal-autor {
+  font-size: 14px;
+  font-weight: 600;
+  color: #475569;
+  margin: 6px 0 16px;
+}
 
 .card h3 {
   margin: 0 0 10px;
