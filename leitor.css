@@ -599,18 +599,21 @@ body {
   padding: 28px;
 }
 
-/* Imagem grande no modal */
+/* Imagem grande no modal — centralizada */
 .modal-img-wrapper {
   position: relative;
-  margin-bottom: 20px;
+  margin: 0 auto 20px;
+  text-align: center;
 }
 
 .modal-img-grande {
   width: 100%;
   max-height: 420px;
+  max-width: 600px;
   object-fit: cover;
   border-radius: 12px;
   display: block;
+  margin: 0 auto;
   cursor: zoom-in;
   transition: opacity .2s;
 }
@@ -651,7 +654,7 @@ body {
   align-items: center;
   justify-content: center;
   gap: 12px;
-  margin: 20px auto;
+  margin: 20px auto !important;
   padding: 32px 20px;
   background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
   border-radius: 12px;
@@ -745,21 +748,6 @@ body {
   color: #2563eb;
   font-weight: 600;
   margin: 6px 0;
-  text-align: center;
-}
-
-/* Centraliza imagem no modal */
-.modal-img-wrapper {
-  margin: 0 auto;
-  text-align: center;
-}
-
-.modal-img-grande {
-  margin: 0 auto;
-  display: block;
-}
-
-.modal-img-dica {
   text-align: center;
 }
 
@@ -936,11 +924,10 @@ body {
   .modal-body { padding: 20px; }
   .modal-body h2 { font-size: 22px; }
 
-  /* Vídeo ocupa largura total no mobile */
-  .modal-video-wrapper {
-    margin-left: -20px;
-    margin-right: -20px;
-    border-radius: 0;
+  /* Vídeo centralizado no mobile */
+  .modal-video-capa {
+    margin: 16px auto;
+    max-width: 100%;
   }
 
   /* Lightbox respeita safe areas */
