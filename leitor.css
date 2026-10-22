@@ -414,7 +414,7 @@ body {
 
 /* ─── GRID ────────────────────────────────── */
 .grid-wrapper {
-  padding: 0 48px 60px;
+  padding: 10px 48px 60px;
 }
 
 .grid {
