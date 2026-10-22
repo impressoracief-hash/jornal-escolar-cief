@@ -225,6 +225,34 @@ function montarImagemHTML(n, contexto) {
   return { antes: "", dentro: tag, depois: '<div style="clear:both;"></div>' };
 }
 
+// ─── Lightbox de vídeo (tela cheia) ──────────────────────────────────────
+window.abrirVideoLightbox = function(id) {
+  const n = noticias.find(x => x.id === id);
+  if (!n || !n.video) return;
+
+  const embedUrl = converterVideoEmbed(n.video);
+  if (!embedUrl) return;
+
+  const lb = document.createElement("div");
+  lb.className = "lightbox video-lightbox";
+  lb.innerHTML = `
+    <button class="lightbox-close" aria-label="Fechar">✕</button>
+    <div class="video-lightbox-container">
+      <iframe src="${embedUrl}" class="video-lightbox-frame"
+              allow="autoplay; accelerometer; encrypted-media; gyroscope; picture-in-picture; fullscreen"
+              allowfullscreen></iframe>
+      <p class="video-lightbox-titulo">${escapeHtml(n.titulo)}</p>
+    </div>`;
+
+  document.body.appendChild(lb);
+  lb.addEventListener("click", e => {
+    if (e.target === lb || e.target.classList.contains("lightbox-close")) lb.remove();
+  });
+  document.addEventListener("keydown", function esc(e) {
+    if (e.key === "Escape") { lb.remove(); document.removeEventListener("keydown", esc); }
+  });
+};
+
 // ─── Lightbox (imagem em tela cheia) ─────────────────────────────────────
 window.abrirLightbox = function(id) {
   const n = noticias.find(x => x.id === id);

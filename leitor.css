@@ -643,22 +643,86 @@ body {
 }
 
 /* ─── VÍDEO NO MODAL ──────────────────────── */
-.modal-video-wrapper {
-  position: relative;
-  width: 100%;
-  padding-bottom: 56.25%; /* 16:9 */
-  margin-top: 20px;
+
+/* Capa do vídeo no modal — centralizada e clicável */
+.modal-video-capa {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin: 20px auto;
+  padding: 32px 20px;
+  background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
   border-radius: 12px;
-  overflow: hidden;
-  background: #000;
+  cursor: pointer;
+  transition: transform .2s, box-shadow .2s;
+  width: 100%;
+  max-width: 500px;
+  text-align: center;
 }
 
-.modal-video-frame {
-  position: absolute;
-  inset: 0;
+.modal-video-capa:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(0,0,0,.2);
+}
+
+.modal-video-play {
+  font-size: 48px;
+  line-height: 1;
+  filter: drop-shadow(0 2px 8px rgba(0,0,0,.4));
+}
+
+.modal-video-texto {
+  color: #cbd5e1;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.modal-video-link-alt {
+  text-align: center;
+  margin: 8px 0 0;
+  font-size: 13px;
+}
+
+.modal-video-link-alt a {
+  color: #2563eb;
+  text-decoration: none;
+}
+
+.modal-video-link-alt a:hover {
+  text-decoration: underline;
+}
+
+/* Lightbox de vídeo em tela cheia */
+.video-lightbox {
+  background: rgba(0,0,0,.95);
+}
+
+.video-lightbox-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   width: 100%;
-  height: 100%;
+  max-width: 900px;
+  margin: auto;
+}
+
+.video-lightbox-frame {
+  width: 100%;
+  max-width: 900px;
+  aspect-ratio: 16/9;
   border: none;
+  border-radius: 8px;
+  box-shadow: 0 8px 40px rgba(0,0,0,.6);
+}
+
+.video-lightbox-titulo {
+  color: #cbd5e1;
+  font-size: 15px;
+  margin-top: 16px;
+  text-align: center;
 }
 
 /* Badge de vídeo no card */
@@ -681,9 +745,25 @@ body {
   color: #2563eb;
   font-weight: 600;
   margin: 6px 0;
+  text-align: center;
 }
 
-/* ─── LIGHTBOX ────────────────────────────── */
+/* Centraliza imagem no modal */
+.modal-img-wrapper {
+  margin: 0 auto;
+  text-align: center;
+}
+
+.modal-img-grande {
+  margin: 0 auto;
+  display: block;
+}
+
+.modal-img-dica {
+  text-align: center;
+}
+
+/* ─── LIGHTBOX (imagem) ────────────────────────────── */
 .lightbox {
   position: fixed;
   inset: 0;
