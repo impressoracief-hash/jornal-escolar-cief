@@ -92,6 +92,7 @@ function renderGrid(lista) {
         ${temCardMedia ? `
           <div class="card-media">
             ${n.img ? img.antes : "📚"}
+            ${n.video ? '<div class="card-video-badge">🎬 Vídeo</div>' : ""}
           </div>` : ""}
         <div class="txt">
           <span class="categoria ${n.categoria}">${n.categoria}</span>
@@ -100,6 +101,7 @@ function renderGrid(lista) {
           ${n.autor ? `<p class="card-autor">✍️ ${escapeHtml(n.autor)}</p>` : ""}
           <p>${escapeHtml(n.texto)}</p>
           ${img.depois}
+          ${n.video ? '<p class="card-video-link">🎬 Tem vídeo — clique para assistir</p>' : ""}
           ${data ? `<div class="data" style="clear:both;">📅 ${data}</div>` : ""}
         </div>
       </article>`;
@@ -117,8 +119,18 @@ window.abrirModal = function(id) {
   const imgHTML = n.img
     ? `<div class="modal-img-wrapper">
          <img src="${n.img}" alt="${escapeHtml(n.titulo)}" class="modal-img-grande"
-              onclick="abrirLightbox('${n.id}')" title="Clique para ampliar 🔍">
+              onclick="abrirLightbox('${n.id}')" title="Clique para ampliar">
          <span class="modal-img-dica">🔍 Clique na imagem para ampliar</span>
+       </div>`
+    : "";
+
+  // Vídeo incorporado (Google Drive ou YouTube)
+  const videoEmbed = n.video ? converterVideoEmbed(n.video) : "";
+  const videoHTML = videoEmbed
+    ? `<div class="modal-video-wrapper">
+         <iframe src="${videoEmbed}" class="modal-video-frame"
+                 allow="autoplay; accelerometer; encrypted-media; gyroscope; picture-in-picture"
+                 allowfullscreen></iframe>
        </div>`
     : "";
 
@@ -135,8 +147,10 @@ window.abrirModal = function(id) {
       <div class="modal-body">
         ${imgHTML}
         <span class="categoria ${n.categoria}">${n.categoria}</span>
-        <p class="modal-autor">✍️ ${escapeHtml(n.titulo)}</p>
+        <h2>${escapeHtml(n.titulo)}</h2>
+        ${n.autor ? `<p class="modal-autor">✍️ ${escapeHtml(n.autor)}</p>` : ""}
         <p>${escapeHtml(n.texto)}</p>
+        ${videoHTML}
         ${data ? `<p style="font-size:13px;color:#94a3b8;margin-top:20px;clear:both;">📅 ${data}</p>` : ""}
       </div>
     </div>`;
@@ -234,6 +248,20 @@ window.abrirLightbox = function(id) {
 };
 
 // ─── Utilitários ──────────────────────────────────────────────────────────
+function converterVideoEmbed(url) {
+  if (!url) return "";
+  // Google Drive: https://drive.google.com/file/d/FILE_ID/view
+  let match = url.match(/drive\.google\.com\/file\/d\/([^\/]+)/);
+  if (match) return `https://drive.google.com/file/d/${match[1]}/preview`;
+  // YouTube: https://www.youtube.com/watch?v=VIDEO_ID
+  match = url.match(/youtube\.com\/watch\?v=([^&]+)/);
+  if (match) return `https://www.youtube.com/embed/${match[1]}`;
+  // YouTube curto: https://youtu.be/VIDEO_ID
+  match = url.match(/youtu\.be\/([^&?]+)/);
+  if (match) return `https://www.youtube.com/embed/${match[1]}`;
+  return "";
+}
+
 function formatarData(d) {
   return d.toLocaleDateString("pt-BR", { day: "2-digit", month: "long", year: "numeric" });
 }

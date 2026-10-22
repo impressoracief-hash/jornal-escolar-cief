@@ -719,6 +719,25 @@ input[type="file"] {
 
 .toast.error { background: var(--red); }
 
+/* ─── VÍDEO NO MODAL ──────────────────────── */
+.modal-video-wrapper {
+  position: relative;
+  width: 100%;
+  padding-bottom: 56.25%;
+  margin-top: 20px;
+  border-radius: 12px;
+  overflow: hidden;
+  background: #000;
+}
+
+.modal-video-frame {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: none;
+}
+
 /* ─── EMPTY STATE ─────────────────────────── */
 .empty-state {
   text-align: center;

@@ -106,6 +106,7 @@ async function publicar() {
   const titulo    = document.getElementById("titulo").value.trim();
   const texto     = document.getElementById("texto").value.trim();
   const autor     = document.getElementById("autor").value.trim();
+  const video     = document.getElementById("video").value.trim();
   const categoria = document.getElementById("categoria").value;
   const file      = document.getElementById("imagem").files[0];
 
@@ -132,7 +133,7 @@ async function publicar() {
     }
 
     const payload = {
-      titulo, texto, autor, categoria,
+      titulo, texto, autor, video, categoria,
       img: imgURL,
       imgConfig,
       data: editandoId
@@ -220,6 +221,7 @@ function editar(id) {
   document.getElementById("titulo").value    = n.titulo;
   document.getElementById("texto").value     = n.texto;
   document.getElementById("autor").value     = n.autor || "";
+  document.getElementById("video").value     = n.video || "";
   document.getElementById("categoria").value = n.categoria;
 
   const controles = document.getElementById("controles-imagem");
@@ -278,6 +280,7 @@ function limparFormulario() {
   document.getElementById("titulo").value    = "";
   document.getElementById("texto").value     = "";
   document.getElementById("autor").value     = "";
+  document.getElementById("video").value     = "";
   document.getElementById("categoria").value = "ficcao";
   document.getElementById("imagem").value    = "";
   document.getElementById("largura").value   = "300";
@@ -444,12 +447,29 @@ function visualizarNoticia(id) {
   if (!n) return;
   const img = montarImagemHTML(n, "modal");
 
+  // Vídeo incorporado
+  let videoHTML = "";
+  if (n.video) {
+    let embedUrl = "";
+    let match = n.video.match(/drive\.google\.com\/file\/d\/([^\/]+)/);
+    if (match) embedUrl = `https://drive.google.com/file/d/${match[1]}/preview`;
+    if (!embedUrl) { match = n.video.match(/youtube\.com\/watch\?v=([^&]+)/); if (match) embedUrl = `https://www.youtube.com/embed/${match[1]}`; }
+    if (!embedUrl) { match = n.video.match(/youtu\.be\/([^&?]+)/); if (match) embedUrl = `https://www.youtube.com/embed/${match[1]}`; }
+    if (embedUrl) {
+      videoHTML = `<div class="modal-video-wrapper">
+        <iframe src="${embedUrl}" class="modal-video-frame"
+                allow="autoplay; accelerometer; encrypted-media; gyroscope; picture-in-picture"
+                allowfullscreen></iframe>
+      </div>`;
+    }
+  }
+
   const modal = document.createElement("div");
   modal.className = "modal-preview";
   modal.innerHTML = `
     <div class="modal-content">
       <div class="modal-header">
-        <h3>👁️ Visualização da notícia</h3>
+        <h3>👁️ Visualização da publicação</h3>
         <button class="modal-close" onclick="this.closest('.modal-preview').remove()">✕</button>
       </div>
       <div class="modal-body">
@@ -460,6 +480,7 @@ function visualizarNoticia(id) {
         ${img.dentro}
         <p>${escapeHtml(n.texto)}</p>
         ${img.depois}
+        ${videoHTML}
       </div>
     </div>`;
 
