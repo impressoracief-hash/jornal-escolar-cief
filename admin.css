@@ -362,7 +362,7 @@ input:focus, textarea:focus, select:focus {
   background: white;
 }
 
-textarea { height: 96px; resize: vertical; }
+textarea { height: 200px; resize: vertical; }
 
 /* Input file customizado */
 .input-file-wrapper {
