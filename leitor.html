@@ -69,6 +69,13 @@
         </div>
       </header>
 
+      <!-- Barra de busca -->
+      <div class="busca-wrapper">
+        <input type="text" id="campo-busca" placeholder="🔍 Buscar por título ou nome do aluno..."
+               oninput="buscarHistoria()" aria-label="Buscar histórias" />
+        <button class="busca-limpar" id="busca-limpar" onclick="limparBusca()" style="display:none;">✕</button>
+      </div>
+
       <!-- História em destaque -->
       <div id="destaque-wrapper"></div>
 

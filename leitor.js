@@ -6,6 +6,7 @@ import {
 // ─── Estado ───────────────────────────────────────────────────────────────
 let noticias    = [];
 let filtroAtual = "todas";
+let termoBusca  = "";
 
 // ─── Inicialização ────────────────────────────────────────────────────────
 document.addEventListener("DOMContentLoaded", () => {
@@ -168,8 +169,7 @@ window.filtrar = function(cat) {
   document.querySelectorAll(".menu-nav button").forEach(btn => btn.classList.remove("active"));
   if (event?.target) event.target.classList.add("active");
 
-  const filtradas = cat === "todas" ? noticias : noticias.filter(n => n.categoria === cat);
-  renderizar(filtradas);
+  aplicarFiltroEBusca();
 
   // No mobile: fecha o menu e rola para o topo para mostrar o conteúdo
   const menu    = document.querySelector(".menu");
@@ -180,6 +180,47 @@ window.filtrar = function(cat) {
   }
   window.scrollTo({ top: 0, behavior: "smooth" });
 };
+
+// ─── Busca por título ou autor ───────────────────────────────────────────
+window.buscarHistoria = function() {
+  const campo = document.getElementById("campo-busca");
+  const btnLimpar = document.getElementById("busca-limpar");
+  termoBusca = campo.value.trim().toLowerCase();
+  btnLimpar.style.display = termoBusca ? "block" : "none";
+
+  // Aplica filtro de categoria + busca de texto
+  aplicarFiltroEBusca();
+};
+
+window.limparBusca = function() {
+  document.getElementById("campo-busca").value = "";
+  termoBusca = "";
+  document.getElementById("busca-limpar").style.display = "none";
+  aplicarFiltroEBusca();
+};
+
+function aplicarFiltroEBusca() {
+  let filtradas = filtroAtual === "todas"
+    ? noticias
+    : noticias.filter(n => n.categoria === filtroAtual);
+
+  if (termoBusca) {
+    filtradas = filtradas.filter(n =>
+      (n.titulo || "").toLowerCase().includes(termoBusca) ||
+      (n.autor  || "").toLowerCase().includes(termoBusca)
+    );
+  }
+
+  const totalEl = document.getElementById("total-noticias");
+  if (totalEl) totalEl.textContent = filtradas.length;
+
+  const wrapper = document.getElementById("destaque-wrapper");
+  const secao   = document.getElementById("secao-mais");
+  if (wrapper) wrapper.innerHTML = "";
+  if (secao)   secao.style.display = "none";
+
+  renderGrid(filtradas);
+}
 
 // ─── Menu mobile ──────────────────────────────────────────────────────────
 window.toggleMenu = function() {
