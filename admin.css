@@ -296,6 +296,7 @@ body {
   grid-template-columns: 400px 1fr;
   gap: 24px;
   align-items: start;
+  max-height: calc(100vh - 160px);
 }
 
 /* ─── FORMULÁRIO ──────────────────────────── */
@@ -306,7 +307,15 @@ body {
   box-shadow: 0 2px 12px rgba(0,0,0,.07);
   position: sticky;
   top: 28px;
+  max-height: calc(100vh - 120px);
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: #cbd5e1 transparent;
 }
+
+.form::-webkit-scrollbar { width: 4px; }
+.form::-webkit-scrollbar-track { background: transparent; }
+.form::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
 
 .form-titulo {
   display: flex;
@@ -468,6 +477,18 @@ input[type="file"] {
 .btn-cancelar:hover { background: var(--border); }
 
 /* ─── SEÇÃO DE NOTÍCIAS ───────────────────── */
+.lista-section {
+  max-height: calc(100vh - 120px);
+  overflow-y: auto;
+  padding-right: 6px;
+  scrollbar-width: thin;
+  scrollbar-color: #cbd5e1 transparent;
+}
+
+.lista-section::-webkit-scrollbar { width: 4px; }
+.lista-section::-webkit-scrollbar-track { background: transparent; }
+.lista-section::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+
 .lista-header {
   display: flex;
   align-items: center;
@@ -775,8 +796,9 @@ input[type="file"] {
 
 /* ─── RESPONSIVO ──────────────────────────── */
 @media (max-width: 1100px) {
-  .painel-layout { grid-template-columns: 1fr; }
-  .form { position: static; }
+  .painel-layout { grid-template-columns: 1fr; max-height: none; }
+  .form { position: static; max-height: none; }
+  .lista-section { max-height: none; }
 }
 
 @media (max-width: 768px) {
